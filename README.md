@@ -1,7 +1,7 @@
 # 🍞 BakerySoft - Sistema de Gestión para Panaderías
 
 <div align="center">
-  <img src="./img/Logo.png" alt="BakerySoft Logo" width="120" height="120">
+  <img src="./public/img/Logo.png" alt="BakerySoft Logo" width="120" height="120">
   
   **Sistema completo de gestión para panaderías con interfaz moderna y funcionalidades avanzadas**
   
@@ -159,7 +159,7 @@ El sistema incluye usuarios predefinidos para testing:
 ```
 BakerySoft/
 ├── public/
-│   └── img/                    # Imágenes y assets
+│   └── img/                    # Imágenes y assets estáticos
 ├── src/
 │   ├── components/             # Componentes React
 │   │   ├── modals/            # Modales del sistema
