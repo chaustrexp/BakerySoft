@@ -1,0 +1,657 @@
+/**
+ * FORMS & MODALS - BakerySoft
+ * ===========================
+ * 
+ * Estilos específicos para formularios y modales:
+ * - LoginForm (formulario de login)
+ * - RegisterForm (formulario de registro)
+ * - Modales del sistema
+ * - Elementos de formulario
+ * 
+ * @author BakerySoft Team
+ * @version 1.0.0
+ */
+
+/* ===== FORMULARIOS BASE ===== */
+
+/**
+ * Contenedor principal de formularios de autenticación
+ */
+.auth-form-container {
+  @apply min-h-screen flex items-center justify-center p-4 relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/**
+ * Overlay para mejorar legibilidad sobre imagen de fondo
+ */
+.auth-form-overlay {
+  @apply absolute inset-0 bg-gradient-to-br from-black/30 via-black/20 to-black/30 dark:from-black/50 dark:via-black/40 dark:to-black/50;
+}
+
+/**
+ * Elementos decorativos de fondo animados
+ */
+.auth-form-decorations {
+  @apply absolute inset-0 overflow-hidden;
+}
+
+.auth-decoration-blob {
+  @apply absolute w-80 h-80 rounded-full mix-blend-multiply filter blur-xl opacity-10;
+}
+
+.auth-decoration-blob.blob-1 {
+  @apply -top-40 -right-40 bg-amber-300 animate-blob;
+}
+
+.auth-decoration-blob.blob-2 {
+  @apply -bottom-40 -left-40 bg-orange-300 animate-blob;
+  animation-delay: 2s;
+}
+
+.auth-decoration-blob.blob-3 {
+  @apply top-40 left-40 bg-red-300 animate-blob;
+  animation-delay: 4s;
+}
+
+/* ===== LOGIN FORM ===== */
+
+/**
+ * Contenedor principal del login
+ */
+.login-container {
+  @apply relative z-10 w-full max-w-6xl mx-auto;
+}
+
+.login-grid {
+  @apply grid lg:grid-cols-2 gap-8 items-center;
+}
+
+/**
+ * Panel izquierdo informativo
+ */
+.login-info-panel {
+  @apply hidden lg:block;
+}
+
+.login-info-content {
+  @apply text-center lg:text-left;
+}
+
+.login-info-logo {
+  @apply inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl mb-8 shadow-lg p-3;
+}
+
+.login-info-title {
+  @apply text-5xl font-bold text-gray-900 dark:text-white mb-6;
+}
+
+.login-info-brand {
+  @apply block text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-500;
+}
+
+.login-info-description {
+  @apply text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed;
+}
+
+.login-features-list {
+  @apply space-y-4;
+}
+
+.login-feature-item {
+  @apply flex items-center space-x-3;
+}
+
+.login-feature-icon {
+  @apply w-8 h-8 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center;
+}
+
+.login-feature-text {
+  @apply text-gray-700 dark:text-gray-300;
+}
+
+/**
+ * Panel derecho del formulario
+ */
+.login-form-panel {
+  @apply w-full max-w-md mx-auto lg:mx-0;
+}
+
+.login-mobile-header {
+  @apply text-center lg:hidden mb-8;
+}
+
+.login-mobile-logo {
+  @apply inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl mb-4 shadow-lg p-2;
+}
+
+.login-mobile-title {
+  @apply text-3xl font-bold text-gray-900 dark:text-white;
+}
+
+.login-mobile-subtitle {
+  @apply text-gray-600 dark:text-gray-400 mt-2;
+}
+
+/**
+ * Formulario principal
+ */
+.login-form-card {
+  @apply bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/30 dark:border-gray-700/30;
+}
+
+.login-form-header {
+  @apply text-center mb-8;
+}
+
+.login-form-title {
+  @apply text-2xl font-bold text-gray-900 dark:text-white mb-2;
+}
+
+.login-form-subtitle {
+  @apply text-gray-600 dark:text-gray-400;
+}
+
+/**
+ * Campos de formulario
+ */
+.form-field {
+  @apply space-y-2;
+}
+
+.form-label {
+  @apply block text-sm font-semibold text-gray-700 dark:text-gray-300;
+}
+
+.form-input-container {
+  @apply relative;
+}
+
+.form-input-icon {
+  @apply absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none;
+}
+
+.form-input {
+  @apply w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-200;
+}
+
+.form-input-with-toggle {
+  @apply pr-12;
+}
+
+.form-toggle-button {
+  @apply absolute inset-y-0 right-0 pr-3 flex items-center;
+}
+
+/**
+ * Mensajes de error
+ */
+.form-error {
+  @apply bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4;
+}
+
+.form-error-content {
+  @apply flex items-center;
+}
+
+.form-error-icon {
+  @apply w-5 h-5 text-red-500 mr-2;
+}
+
+.form-error-text {
+  @apply text-sm text-red-600 dark:text-red-400;
+}
+
+/**
+ * Botones de formulario
+ */
+.form-button {
+  @apply w-full py-3 px-6 rounded-xl transition-all duration-200 transform active:scale-[0.98] shadow-lg hover:shadow-xl font-medium flex items-center justify-center;
+}
+
+.form-button.primary {
+  @apply bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 disabled:from-amber-300 disabled:to-orange-300 text-white hover:scale-[1.02];
+}
+
+.form-button.secondary {
+  @apply border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-amber-500 hover:text-amber-600 dark:hover:text-amber-400;
+}
+
+.form-button.loading {
+  @apply cursor-not-allowed;
+}
+
+.form-loading-spinner {
+  @apply animate-spin -ml-1 mr-3 h-5 w-5 text-white;
+}
+
+/**
+ * Divider
+ */
+.form-divider {
+  @apply relative;
+}
+
+.form-divider-line {
+  @apply absolute inset-0 flex items-center;
+}
+
+.form-divider-border {
+  @apply w-full border-t border-gray-300 dark:border-gray-600;
+}
+
+.form-divider-text {
+  @apply relative flex justify-center text-sm;
+}
+
+.form-divider-label {
+  @apply px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400;
+}
+
+/* ===== REGISTER FORM ===== */
+
+/**
+ * Contenedor del formulario de registro
+ */
+.register-container {
+  @apply relative z-10 w-full max-w-lg mx-auto;
+}
+
+/**
+ * Header del registro
+ */
+.register-header {
+  @apply text-center mb-8;
+}
+
+.register-logo {
+  @apply inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl mb-6 shadow-lg;
+}
+
+.register-title {
+  @apply text-4xl font-bold text-white dark:text-white mb-2 drop-shadow-lg;
+}
+
+.register-brand {
+  @apply text-amber-200 drop-shadow-lg;
+}
+
+.register-subtitle {
+  @apply text-white/90 dark:text-white/90 drop-shadow-md;
+}
+
+/**
+ * Barra de progreso
+ */
+.progress-container {
+  @apply mb-8;
+}
+
+.progress-steps {
+  @apply flex items-center justify-between mb-2;
+}
+
+.progress-step {
+  @apply flex items-center;
+}
+
+.progress-step-circle {
+  @apply w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all duration-300;
+}
+
+.progress-step-circle.active {
+  @apply bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg;
+}
+
+.progress-step-circle.inactive {
+  @apply bg-white/80 dark:bg-gray-700/80 text-gray-700 dark:text-gray-300 backdrop-blur-sm;
+}
+
+.progress-step-line {
+  @apply w-16 h-1 mx-2 rounded-full transition-all duration-300;
+}
+
+.progress-step-line.active {
+  @apply bg-gradient-to-r from-amber-500 to-orange-500;
+}
+
+.progress-step-line.inactive {
+  @apply bg-white/60 dark:bg-gray-600/60 backdrop-blur-sm;
+}
+
+.progress-labels {
+  @apply flex justify-between text-xs text-white/90 dark:text-white/90 font-medium drop-shadow-md;
+}
+
+/**
+ * Formulario de registro
+ */
+.register-form-card {
+  @apply bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/30 dark:border-gray-700/30;
+}
+
+/**
+ * Pasos del formulario
+ */
+.register-step-header {
+  @apply text-center mb-8;
+}
+
+.register-step-icon {
+  @apply w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4;
+}
+
+.register-step-icon.step-1 {
+  @apply bg-gradient-to-r from-amber-500 to-orange-500;
+}
+
+.register-step-icon.step-2 {
+  @apply bg-gradient-to-r from-blue-500 to-purple-500;
+}
+
+.register-step-icon.step-3 {
+  @apply bg-gradient-to-r from-green-500 to-blue-500;
+}
+
+.register-step-title {
+  @apply text-2xl font-bold text-gray-900 dark:text-white;
+}
+
+.register-step-subtitle {
+  @apply text-gray-600 dark:text-gray-400;
+}
+
+/**
+ * Selección de avatar
+ */
+.avatar-grid {
+  @apply grid grid-cols-4 gap-3;
+}
+
+.avatar-option {
+  @apply p-3 rounded-xl border-2 transition-all duration-200 hover:scale-105;
+}
+
+.avatar-option.selected {
+  @apply border-amber-500 bg-amber-50 dark:bg-amber-900/30 shadow-lg;
+}
+
+.avatar-option.unselected {
+  @apply border-gray-300 dark:border-gray-600 hover:border-amber-300 dark:hover:border-amber-400;
+}
+
+.avatar-emoji {
+  @apply text-2xl;
+}
+
+.avatar-name {
+  @apply text-xs text-gray-600 dark:text-gray-400 mt-1;
+}
+
+/**
+ * Selección de roles
+ */
+.role-option {
+  @apply w-full p-4 rounded-xl border-2 transition-all duration-200 text-left;
+}
+
+.role-option.selected {
+  @apply border-amber-500 bg-amber-50 dark:bg-amber-900/30 shadow-lg;
+}
+
+.role-option.unselected {
+  @apply border-gray-300 dark:border-gray-600 hover:border-amber-300 dark:hover:border-amber-400 hover:shadow-md;
+}
+
+.role-option-content {
+  @apply flex items-center space-x-4;
+}
+
+.role-option-icon {
+  @apply w-12 h-12 rounded-xl flex items-center justify-center text-white text-xl;
+}
+
+.role-option-info {
+  @apply flex-1;
+}
+
+.role-option-name {
+  @apply font-semibold text-gray-900 dark:text-white;
+}
+
+.role-option-description {
+  @apply text-sm text-gray-600 dark:text-gray-400;
+}
+
+.role-option-check {
+  @apply w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center;
+}
+
+/**
+ * Resumen del registro
+ */
+.register-summary {
+  @apply bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-xl p-6 border border-amber-200 dark:border-amber-800;
+}
+
+.register-summary-header {
+  @apply font-semibold text-amber-800 dark:text-amber-300 mb-3 flex items-center;
+}
+
+.register-summary-content {
+  @apply space-y-2 text-sm;
+}
+
+.register-summary-item {
+  @apply flex items-center justify-between;
+}
+
+.register-summary-label {
+  @apply text-gray-600 dark:text-gray-400;
+}
+
+.register-summary-value {
+  @apply font-medium text-gray-900 dark:text-white flex items-center;
+}
+
+/**
+ * Navegación del formulario
+ */
+.form-navigation {
+  @apply flex justify-between mt-8;
+}
+
+.form-nav-button {
+  @apply px-6 py-3 rounded-xl font-medium transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl;
+}
+
+.form-nav-button.back {
+  @apply border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-amber-500 hover:text-amber-600 dark:hover:text-amber-400;
+}
+
+.form-nav-button.next {
+  @apply bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white;
+}
+
+.form-nav-button.submit {
+  @apply bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 disabled:from-green-300 disabled:to-blue-300 text-white;
+}
+
+/**
+ * Link de cambio de formulario
+ */
+.form-switch-link {
+  @apply text-center mt-6;
+}
+
+.form-switch-text {
+  @apply text-white/90 dark:text-white/90 drop-shadow-md;
+}
+
+.form-switch-button {
+  @apply text-amber-200 dark:text-amber-200 hover:text-amber-100 dark:hover:text-amber-100 font-semibold transition-colors duration-200 drop-shadow-md;
+}
+
+/* ===== DEMO USERS ===== */
+
+/**
+ * Sección de usuarios demo
+ */
+.demo-users-section {
+  @apply mt-8 bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-white/30 dark:border-gray-700/30;
+}
+
+.demo-users-title {
+  @apply text-lg font-semibold text-gray-900 dark:text-white mb-4 text-center;
+}
+
+.demo-users-grid {
+  @apply grid grid-cols-2 sm:grid-cols-3 gap-3;
+}
+
+.demo-user-card {
+  @apply p-3 text-white rounded-xl transition-all duration-200 transform hover:scale-105 active:scale-95;
+}
+
+.demo-user-content {
+  @apply text-center;
+}
+
+.demo-user-avatar {
+  @apply w-12 h-12 mx-auto mb-2 rounded-full overflow-hidden border-2 border-white/30;
+}
+
+.demo-user-photo {
+  @apply w-full h-full object-cover;
+}
+
+.demo-user-role {
+  @apply font-semibold text-sm;
+}
+
+.demo-user-username {
+  @apply text-xs opacity-90;
+}
+
+.demo-users-note {
+  @apply text-xs text-gray-500 dark:text-gray-400 mt-4 text-center;
+}
+
+/* ===== MODALES ===== */
+
+/**
+ * Overlay del modal
+ */
+.modal-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4;
+}
+
+/**
+ * Contenedor del modal
+ */
+.modal-container {
+  @apply bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full max-h-[80vh] overflow-hidden;
+}
+
+.modal-container.large {
+  @apply max-w-2xl;
+}
+
+.modal-container.extra-large {
+  @apply max-w-4xl;
+}
+
+/**
+ * Header del modal
+ */
+.modal-header {
+  @apply p-6 border-b border-gray-200 dark:border-gray-700;
+}
+
+.modal-header-content {
+  @apply flex items-center justify-between;
+}
+
+.modal-title {
+  @apply text-xl font-semibold text-gray-900 dark:text-white;
+}
+
+.modal-close-button {
+  @apply text-gray-400 hover:text-gray-600 dark:hover:text-gray-300;
+}
+
+/**
+ * Contenido del modal
+ */
+.modal-content {
+  @apply p-6 max-h-96 overflow-y-auto custom-scrollbar;
+}
+
+/**
+ * Footer del modal
+ */
+.modal-footer {
+  @apply p-6 border-t border-gray-200 dark:border-gray-700;
+}
+
+.modal-footer-actions {
+  @apply flex items-center justify-end space-x-3;
+}
+
+.modal-button {
+  @apply px-4 py-2 rounded-lg font-medium transition-colors;
+}
+
+.modal-button.primary {
+  @apply bg-amber-500 hover:bg-amber-600 text-white;
+}
+
+.modal-button.secondary {
+  @apply bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300;
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+
+/* Mobile */
+@media (max-width: 767px) {
+  .auth-form-container {
+    @apply p-3;
+  }
+  
+  .login-form-card,
+  .register-form-card {
+    @apply p-6;
+  }
+  
+  .demo-users-grid {
+    @apply grid-cols-2;
+  }
+  
+  .modal-container {
+    @apply mx-3;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .login-grid {
+    @apply grid-cols-1 gap-6;
+  }
+  
+  .login-info-panel {
+    @apply block text-center;
+  }
+}
+
+/* Print styles */
+@media print {
+  .auth-form-decorations,
+  .demo-users-section,
+  .form-navigation,
+  .modal-overlay {
+    @apply hidden;
+  }
+}

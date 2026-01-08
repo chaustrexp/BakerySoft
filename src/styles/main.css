@@ -1,0 +1,309 @@
+/**
+ * MAIN STYLES - BakerySoft
+ * ========================
+ * 
+ * Archivo principal de estilos que importa todos los componentes CSS
+ * Este archivo debe ser importado en main.jsx o App.jsx
+ * 
+ * @author BakerySoft Team
+ * @version 1.0.0
+ */
+
+/* ===== TAILWIND CSS BASE ===== */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== ESTILOS BASE DEL SISTEMA ===== */
+@import './base.css';
+
+/* ===== COMPONENTES DE LAYOUT ===== */
+@import './components/layout.css';
+
+/* ===== COMPONENTES DE DASHBOARD ===== */
+@import './components/dashboard.css';
+
+/* ===== FORMULARIOS Y MODALES ===== */
+@import './components/forms.css';
+
+/* ===== INVENTARIO Y PRODUCTOS ===== */
+@import './components/inventory.css';
+
+/* ===== ESTILOS GLOBALES ADICIONALES ===== */
+
+/**
+ * Reset y configuración base
+ */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+/**
+ * Configuración para modo oscuro
+ */
+.dark {
+  color-scheme: dark;
+}
+
+/**
+ * Animaciones personalizadas adicionales
+ */
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/**
+ * Utilidades de accesibilidad
+ */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/**
+ * Focus visible para mejor accesibilidad
+ */
+.focus-visible:focus {
+  outline: 2px solid #f59e0b;
+  outline-offset: 2px;
+}
+
+/**
+ * Utilidades de texto mejoradas
+ */
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-pretty {
+  text-wrap: pretty;
+}
+
+/**
+ * Gradientes personalizados del sistema
+ */
+.bg-gradient-bakery {
+  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+}
+
+.bg-gradient-success {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.bg-gradient-warning {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.bg-gradient-error {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.bg-gradient-info {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+/**
+ * Sombras personalizadas
+ */
+.shadow-bakery {
+  box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.1), 0 8px 10px -6px rgba(245, 158, 11, 0.1);
+}
+
+.shadow-success {
+  box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.1), 0 8px 10px -6px rgba(16, 185, 129, 0.1);
+}
+
+.shadow-error {
+  box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.1), 0 8px 10px -6px rgba(239, 68, 68, 0.1);
+}
+
+/**
+ * Estados de hover mejorados
+ */
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+/**
+ * Utilidades de layout avanzadas
+ */
+.container-fluid {
+  width: 100%;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 640px) {
+  .container-fluid {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-fluid {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-fluid {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container-fluid {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container-fluid {
+    max-width: 1536px;
+  }
+}
+
+/**
+ * Utilidades de debugging (solo en desarrollo)
+ */
+.debug-red {
+  border: 1px solid red !important;
+}
+
+.debug-blue {
+  border: 1px solid blue !important;
+}
+
+.debug-green {
+  border: 1px solid green !important;
+}
+
+/**
+ * Optimizaciones de rendimiento
+ */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.will-change-scroll {
+  will-change: scroll-position;
+}
+
+/**
+ * Utilidades de impresión
+ */
+@media print {
+  .print-hidden {
+    display: none !important;
+  }
+  
+  .print-visible {
+    display: block !important;
+  }
+  
+  .print-break-before {
+    page-break-before: always;
+  }
+  
+  .print-break-after {
+    page-break-after: always;
+  }
+  
+  .print-break-inside-avoid {
+    page-break-inside: avoid;
+  }
+}
+
+/**
+ * Configuración de fuentes
+ */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+}
+
+/**
+ * Variables CSS para temas personalizados
+ */
+:root {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+/**
+ * Configuración de scroll suave
+ */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/**
+ * Configuración para usuarios que prefieren menos movimiento
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,542 @@
+/**
+ * DASHBOARD COMPONENTS - BakerySoft
+ * =================================
+ * 
+ * Estilos específicos para componentes del dashboard:
+ * - Dashboard principal
+ * - StatsCards (tarjetas de estadísticas)
+ * - ChartSection (sección de gráficos)
+ * - AlertsSection (alertas y notificaciones)
+ * 
+ * @author BakerySoft Team
+ * @version 1.0.0
+ */
+
+/* ===== DASHBOARD PRINCIPAL ===== */
+
+/**
+ * Contenedor principal del dashboard
+ */
+.dashboard-container {
+  @apply p-4 sm:p-6 animate-fade-in;
+}
+
+/**
+ * Banner de bienvenida
+ */
+.welcome-banner {
+  @apply mb-6 bg-gradient-to-r rounded-xl p-6 text-white relative overflow-hidden;
+}
+
+.welcome-banner.admin {
+  @apply from-blue-500 to-purple-600;
+}
+
+.welcome-banner.client {
+  @apply from-orange-500 to-red-500;
+}
+
+.welcome-banner-close {
+  @apply absolute top-4 right-4 text-white hover:text-gray-200 transition-colors;
+}
+
+.welcome-banner-content {
+  @apply flex items-center justify-between;
+}
+
+.welcome-banner-left {
+  @apply flex-1;
+}
+
+.welcome-banner-header {
+  @apply flex items-center space-x-3 mb-3;
+}
+
+.welcome-banner-emoji {
+  @apply text-3xl;
+}
+
+.welcome-banner-title {
+  @apply text-xl font-bold;
+}
+
+.welcome-banner-subtitle {
+  @apply text-blue-100 opacity-90;
+}
+
+.welcome-banner-actions {
+  @apply flex flex-wrap gap-3;
+}
+
+.welcome-banner-button {
+  @apply px-4 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2;
+}
+
+.welcome-banner-button.primary {
+  @apply bg-white text-blue-600 hover:bg-blue-50;
+}
+
+.welcome-banner-button.secondary {
+  @apply bg-blue-600 text-white hover:bg-blue-700 border border-blue-400;
+}
+
+.welcome-banner-logo {
+  @apply hidden lg:block text-6xl opacity-20;
+}
+
+/**
+ * Título del dashboard
+ */
+.dashboard-header {
+  @apply mb-6 sm:mb-8;
+}
+
+.dashboard-header-content {
+  @apply flex flex-col sm:flex-row sm:items-center sm:justify-between;
+}
+
+.dashboard-header-left {
+  @apply mb-4 sm:mb-0;
+}
+
+.dashboard-title {
+  @apply text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2;
+}
+
+.dashboard-subtitle {
+  @apply text-gray-600 dark:text-gray-300;
+}
+
+.dashboard-header-right {
+  @apply flex items-center space-x-4;
+}
+
+.dashboard-user-info {
+  @apply text-right;
+}
+
+.dashboard-last-access-label {
+  @apply text-sm text-gray-500 dark:text-gray-400;
+}
+
+.dashboard-last-access-value {
+  @apply text-sm font-medium text-gray-900 dark:text-white;
+}
+
+/* ===== STATS CARDS ===== */
+
+/**
+ * Contenedor de tarjetas de estadísticas
+ */
+.stats-cards-container {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6;
+}
+
+/**
+ * Tarjeta individual de estadística
+ */
+.stats-card {
+  @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700 hover-lift;
+}
+
+.stats-card-content {
+  @apply flex items-center justify-between;
+}
+
+.stats-card-info {
+  @apply flex-1;
+}
+
+.stats-card-label {
+  @apply text-sm font-medium text-gray-600 dark:text-gray-400 mb-1;
+}
+
+.stats-card-value {
+  @apply text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white;
+}
+
+.stats-card-change {
+  @apply text-sm font-medium mt-1;
+}
+
+.stats-card-change.positive {
+  @apply text-green-600 dark:text-green-400;
+}
+
+.stats-card-change.negative {
+  @apply text-red-600 dark:text-red-400;
+}
+
+.stats-card-change.neutral {
+  @apply text-gray-500 dark:text-gray-400;
+}
+
+.stats-card-icon {
+  @apply text-3xl sm:text-4xl;
+}
+
+.stats-card-progress {
+  @apply mt-4;
+}
+
+.stats-card-progress-label {
+  @apply flex justify-between text-xs text-gray-600 dark:text-gray-400 mb-1;
+}
+
+.stats-card-progress-bar {
+  @apply w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2;
+}
+
+.stats-card-progress-fill {
+  @apply h-2 rounded-full transition-all duration-500;
+}
+
+.stats-card-progress-fill.optimal {
+  @apply bg-green-500;
+}
+
+.stats-card-progress-fill.low {
+  @apply bg-yellow-500;
+}
+
+.stats-card-progress-fill.critical {
+  @apply bg-red-500;
+}
+
+/* ===== CHART SECTION ===== */
+
+/**
+ * Contenedor de la sección de gráficos
+ */
+.chart-section-container {
+  @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 border border-gray-200 dark:border-gray-700;
+}
+
+.chart-section-header {
+  @apply flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6;
+}
+
+.chart-section-title {
+  @apply text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-0;
+}
+
+.chart-section-controls {
+  @apply flex items-center space-x-2;
+}
+
+.chart-toggle-button {
+  @apply px-3 py-1 text-sm font-medium rounded-lg transition-colors;
+}
+
+.chart-toggle-button.active {
+  @apply bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300;
+}
+
+.chart-toggle-button.inactive {
+  @apply text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700;
+}
+
+/**
+ * Grid de gráficos
+ */
+.charts-grid {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-6;
+}
+
+.chart-card {
+  @apply bg-gray-50 dark:bg-gray-700 rounded-lg p-4;
+}
+
+.chart-card-title {
+  @apply text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3;
+}
+
+.chart-bars-container {
+  @apply space-y-3;
+}
+
+.chart-bar-item {
+  @apply flex items-center justify-between;
+}
+
+.chart-bar-label {
+  @apply text-sm text-gray-600 dark:text-gray-400 min-w-0 flex-1;
+}
+
+.chart-bar-progress {
+  @apply flex-1 mx-3;
+}
+
+.chart-bar-bg {
+  @apply w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2;
+}
+
+.chart-bar-fill {
+  @apply h-2 rounded-full transition-all duration-700;
+}
+
+.chart-bar-value {
+  @apply text-sm font-medium text-gray-900 dark:text-white min-w-0;
+}
+
+/* ===== ALERTS SECTION ===== */
+
+/**
+ * Contenedor de la sección de alertas
+ */
+.alerts-section-container {
+  @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 border border-gray-200 dark:border-gray-700;
+}
+
+.alerts-section-header {
+  @apply flex items-center justify-between mb-6;
+}
+
+.alerts-section-title {
+  @apply text-lg font-bold text-gray-900 dark:text-white;
+}
+
+.alerts-toggle-button {
+  @apply text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium;
+}
+
+/**
+ * Lista de alertas
+ */
+.alerts-list {
+  @apply space-y-4;
+}
+
+.alert-item {
+  @apply flex items-center justify-between p-4 rounded-lg border-l-4 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700;
+}
+
+.alert-item.critical {
+  @apply bg-red-50 dark:bg-red-900/20 border-red-500;
+}
+
+.alert-item.warning {
+  @apply bg-yellow-50 dark:bg-yellow-900/20 border-yellow-500;
+}
+
+.alert-item.success {
+  @apply bg-green-50 dark:bg-green-900/20 border-green-500;
+}
+
+.alert-item.info {
+  @apply bg-blue-50 dark:bg-blue-900/20 border-blue-500;
+}
+
+.alert-content {
+  @apply flex-1;
+}
+
+.alert-title {
+  @apply font-semibold text-gray-900 dark:text-white text-sm;
+}
+
+.alert-message {
+  @apply text-gray-600 dark:text-gray-400 text-sm mt-1;
+}
+
+.alert-progress {
+  @apply mt-2;
+}
+
+.alert-progress-bg {
+  @apply w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1;
+}
+
+.alert-progress-fill {
+  @apply h-1 rounded-full transition-all duration-500;
+}
+
+.alert-actions {
+  @apply flex items-center space-x-2;
+}
+
+.alert-action-button {
+  @apply px-3 py-1 text-xs font-medium rounded-lg transition-colors;
+}
+
+.alert-action-button.primary {
+  @apply bg-blue-500 hover:bg-blue-600 text-white;
+}
+
+.alert-action-button.secondary {
+  @apply bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300;
+}
+
+/* ===== DASHBOARD ESPECÍFICO PARA CLIENTES ===== */
+
+/**
+ * Estadísticas del cliente
+ */
+.client-stats-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4;
+}
+
+.client-stat-card {
+  @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700;
+}
+
+/**
+ * Ofertas especiales
+ */
+.offers-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+}
+
+.offer-card {
+  @apply bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/20 dark:to-red-900/20 rounded-lg p-4 border border-orange-200 dark:border-orange-800;
+}
+
+.offer-header {
+  @apply flex items-center space-x-3 mb-3;
+}
+
+.offer-emoji {
+  @apply text-3xl;
+}
+
+.offer-info {
+  @apply flex-1;
+}
+
+.offer-title {
+  @apply font-semibold text-gray-900 dark:text-white;
+}
+
+.offer-description {
+  @apply text-sm text-gray-600 dark:text-gray-400;
+}
+
+.offer-discount {
+  @apply bg-red-500 text-white px-2 py-1 rounded-full text-sm font-bold;
+}
+
+.offer-footer {
+  @apply flex items-center justify-between;
+}
+
+.offer-validity {
+  @apply text-xs text-gray-500 dark:text-gray-400;
+}
+
+.offer-button {
+  @apply bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded-lg text-sm font-medium transition-colors;
+}
+
+/**
+ * Productos populares
+ */
+.popular-products-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4;
+}
+
+.popular-product-card {
+  @apply bg-gray-50 dark:bg-gray-700 rounded-lg p-4 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors cursor-pointer;
+}
+
+.popular-product-content {
+  @apply text-center;
+}
+
+.popular-product-emoji {
+  @apply text-4xl mb-2;
+}
+
+.popular-product-name {
+  @apply font-semibold text-gray-900 dark:text-white text-sm mb-1;
+}
+
+.popular-product-price {
+  @apply text-orange-600 dark:text-orange-400 font-bold;
+}
+
+.popular-product-rating {
+  @apply flex items-center justify-center mt-2;
+}
+
+/**
+ * Acciones rápidas
+ */
+.quick-actions-grid {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-4;
+}
+
+.quick-action-card {
+  @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-shadow text-left;
+}
+
+.quick-action-content {
+  @apply flex items-center space-x-4;
+}
+
+.quick-action-emoji {
+  @apply text-4xl;
+}
+
+.quick-action-info {
+  @apply flex-1;
+}
+
+.quick-action-title {
+  @apply font-semibold text-gray-900 dark:text-white;
+}
+
+.quick-action-description {
+  @apply text-sm text-gray-600 dark:text-gray-400;
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+
+/* Mobile */
+@media (max-width: 767px) {
+  .dashboard-container {
+    @apply p-3;
+  }
+  
+  .stats-cards-container {
+    @apply grid-cols-1 gap-3;
+  }
+  
+  .stats-card {
+    @apply p-4;
+  }
+  
+  .chart-section-container,
+  .alerts-section-container {
+    @apply p-4;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .stats-cards-container {
+    @apply grid-cols-2;
+  }
+  
+  .charts-grid {
+    @apply grid-cols-1;
+  }
+}
+
+/* Print styles */
+@media print {
+  .welcome-banner,
+  .alert-actions,
+  .chart-section-controls {
+    @apply hidden;
+  }
+  
+  .dashboard-container {
+    @apply p-0;
+  }
+  
+  .stats-card,
+  .chart-section-container,
+  .alerts-section-container {
+    @apply shadow-none border border-gray-300;
+  }
+}

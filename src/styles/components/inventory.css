@@ -1,0 +1,628 @@
+/**
+ * INVENTORY & PRODUCTS - BakerySoft
+ * =================================
+ * 
+ * Estilos específicos para componentes de inventario y productos:
+ * - InventoryGrid (grid de inventario)
+ * - CardMateriaPrima (tarjetas de materia prima)
+ * - ProductosView (catálogo de productos)
+ * - Estados de stock y alertas
+ * 
+ * @author BakerySoft Team
+ * @version 1.0.0
+ */
+
+/* ===== INVENTORY GRID ===== */
+
+/**
+ * Contenedor principal del inventario
+ */
+.inventory-container {
+  @apply p-4 sm:p-6 animate-fade-in;
+}
+
+/**
+ * Header del inventario
+ */
+.inventory-header {
+  @apply mb-6 sm:mb-8;
+}
+
+.inventory-title {
+  @apply text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2;
+}
+
+.inventory-subtitle {
+  @apply text-gray-600 dark:text-gray-300;
+}
+
+/**
+ * Controles y filtros del inventario
+ */
+.inventory-controls {
+  @apply mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4;
+}
+
+.inventory-search {
+  @apply relative flex-1 max-w-md;
+}
+
+.inventory-search-icon {
+  @apply absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none;
+}
+
+.inventory-search-input {
+  @apply w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400;
+}
+
+.inventory-filters {
+  @apply flex items-center space-x-2;
+}
+
+.inventory-filter-button {
+  @apply px-3 py-2 text-sm font-medium rounded-lg transition-colors;
+}
+
+.inventory-filter-button.active {
+  @apply bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300;
+}
+
+.inventory-filter-button.inactive {
+  @apply bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600;
+}
+
+/**
+ * Grid del inventario
+ */
+.inventory-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6;
+}
+
+/**
+ * Mensaje cuando no hay productos
+ */
+.inventory-empty {
+  @apply text-center py-12;
+}
+
+.inventory-empty-icon {
+  @apply text-6xl mb-4;
+}
+
+.inventory-empty-title {
+  @apply text-xl font-semibold text-gray-900 dark:text-white mb-2;
+}
+
+.inventory-empty-message {
+  @apply text-gray-600 dark:text-gray-400;
+}
+
+/* ===== CARD MATERIA PRIMA ===== */
+
+/**
+ * Tarjeta principal de materia prima
+ */
+.materia-card {
+  @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover-lift transition-all duration-200;
+}
+
+/**
+ * Header de la tarjeta
+ */
+.materia-card-header {
+  @apply p-4 border-b border-gray-200 dark:border-gray-700;
+}
+
+.materia-card-title-row {
+  @apply flex items-start justify-between mb-2;
+}
+
+.materia-card-name {
+  @apply text-lg font-semibold text-gray-900 dark:text-white flex-1 mr-2;
+}
+
+.materia-card-status-badge {
+  @apply px-2 py-1 rounded-full text-xs font-bold flex-shrink-0;
+}
+
+.materia-card-status-badge.optimal {
+  @apply bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200;
+}
+
+.materia-card-status-badge.low {
+  @apply bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200;
+}
+
+.materia-card-status-badge.critical {
+  @apply bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200;
+}
+
+.materia-card-provider {
+  @apply text-sm text-gray-600 dark:text-gray-400;
+}
+
+/**
+ * Contenido principal de la tarjeta
+ */
+.materia-card-content {
+  @apply p-4;
+}
+
+/**
+ * Información de cantidad
+ */
+.materia-card-quantity {
+  @apply mb-4;
+}
+
+.materia-card-quantity-row {
+  @apply flex items-center justify-between mb-2;
+}
+
+.materia-card-quantity-label {
+  @apply text-sm text-gray-600 dark:text-gray-400;
+}
+
+.materia-card-quantity-value {
+  @apply text-xl font-bold text-gray-900 dark:text-white;
+}
+
+.materia-card-quantity-unit {
+  @apply text-sm text-gray-500 dark:text-gray-400 ml-1;
+}
+
+/**
+ * Barra de progreso de stock
+ */
+.materia-card-progress {
+  @apply mb-4;
+}
+
+.materia-card-progress-bg {
+  @apply w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2;
+}
+
+.materia-card-progress-fill {
+  @apply h-2 rounded-full transition-all duration-500;
+}
+
+.materia-card-progress-fill.optimal {
+  @apply bg-green-500;
+}
+
+.materia-card-progress-fill.low {
+  @apply bg-yellow-500;
+}
+
+.materia-card-progress-fill.critical {
+  @apply bg-red-500;
+}
+
+.materia-card-progress-labels {
+  @apply flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1;
+}
+
+/**
+ * Información adicional
+ */
+.materia-card-info {
+  @apply space-y-2 mb-4;
+}
+
+.materia-card-info-row {
+  @apply flex items-center justify-between text-sm;
+}
+
+.materia-card-info-label {
+  @apply text-gray-600 dark:text-gray-400;
+}
+
+.materia-card-info-value {
+  @apply font-medium text-gray-900 dark:text-white;
+}
+
+/**
+ * Acciones de la tarjeta
+ */
+.materia-card-actions {
+  @apply flex items-center space-x-2;
+}
+
+.materia-card-action-button {
+  @apply flex-1 px-3 py-2 text-sm font-medium rounded-lg transition-colors;
+}
+
+.materia-card-action-button.primary {
+  @apply bg-blue-500 hover:bg-blue-600 text-white;
+}
+
+.materia-card-action-button.secondary {
+  @apply bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300;
+}
+
+.materia-card-action-button.urgent {
+  @apply bg-red-500 hover:bg-red-600 text-white;
+}
+
+/* ===== PRODUCTOS VIEW ===== */
+
+/**
+ * Contenedor del catálogo de productos
+ */
+.productos-container {
+  @apply p-4 sm:p-6;
+}
+
+/**
+ * Header del catálogo
+ */
+.productos-header {
+  @apply mb-6;
+}
+
+.productos-title {
+  @apply text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2;
+}
+
+.productos-subtitle {
+  @apply text-gray-600 dark:text-gray-300;
+}
+
+/**
+ * Filtros y búsqueda de productos
+ */
+.productos-filters {
+  @apply mb-6 space-y-4;
+}
+
+.productos-search {
+  @apply relative;
+}
+
+.productos-search-icon {
+  @apply absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none;
+}
+
+.productos-search-input {
+  @apply w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white;
+}
+
+/**
+ * Categorías de productos
+ */
+.productos-categories {
+  @apply flex flex-wrap gap-2;
+}
+
+.productos-category-button {
+  @apply px-4 py-2 rounded-full text-sm font-medium transition-colors flex items-center space-x-2;
+}
+
+.productos-category-button.active {
+  @apply bg-orange-500 text-white;
+}
+
+.productos-category-button.inactive {
+  @apply bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600;
+}
+
+/**
+ * Grid de productos
+ */
+.productos-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
+}
+
+/**
+ * Tarjeta de producto
+ */
+.producto-card {
+  @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300;
+}
+
+/**
+ * Imagen del producto
+ */
+.producto-image {
+  @apply h-48 bg-gradient-to-br from-orange-100 to-amber-100 dark:from-orange-900 dark:to-amber-900 flex items-center justify-center relative;
+}
+
+.producto-emoji {
+  @apply text-6xl;
+}
+
+.producto-stock-badge {
+  @apply absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold;
+}
+
+/**
+ * Información del producto
+ */
+.producto-info {
+  @apply p-4;
+}
+
+.producto-header {
+  @apply flex items-start justify-between mb-2;
+}
+
+.producto-name {
+  @apply text-lg font-semibold text-gray-900 dark:text-white;
+}
+
+.producto-price {
+  @apply text-lg font-bold text-orange-600 dark:text-orange-400;
+}
+
+.producto-description {
+  @apply text-gray-600 dark:text-gray-400 text-sm mb-3 text-clamp-2;
+}
+
+/**
+ * Información adicional del producto
+ */
+.producto-details {
+  @apply flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mb-4;
+}
+
+.producto-detail-item {
+  @apply flex items-center;
+}
+
+/**
+ * Botón de agregar al carrito
+ */
+.producto-add-button {
+  @apply w-full py-2 px-4 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center space-x-2;
+}
+
+.producto-add-button.available {
+  @apply bg-orange-500 hover:bg-orange-600 text-white;
+}
+
+.producto-add-button.unavailable {
+  @apply bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed;
+}
+
+/* ===== CARRITO DE COMPRAS ===== */
+
+/**
+ * Carrito flotante
+ */
+.cart-float {
+  @apply fixed bottom-4 right-4 z-50;
+}
+
+.cart-float-button {
+  @apply bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-full shadow-lg transition-all duration-200 flex items-center space-x-3;
+}
+
+.cart-float-info {
+  @apply text-left;
+}
+
+.cart-float-count {
+  @apply font-semibold;
+}
+
+.cart-float-total {
+  @apply text-sm;
+}
+
+.cart-float-badge {
+  @apply w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-xs font-bold;
+}
+
+/**
+ * Modal del carrito
+ */
+.cart-modal {
+  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4;
+}
+
+.cart-modal-container {
+  @apply bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full max-h-[80vh] overflow-hidden;
+}
+
+.cart-modal-header {
+  @apply p-6 border-b border-gray-200 dark:border-gray-700;
+}
+
+.cart-modal-title {
+  @apply text-xl font-semibold text-gray-900 dark:text-white;
+}
+
+.cart-modal-close {
+  @apply text-gray-400 hover:text-gray-600 dark:hover:text-gray-300;
+}
+
+/**
+ * Lista de productos en el carrito
+ */
+.cart-items {
+  @apply p-6 max-h-96 overflow-y-auto custom-scrollbar;
+}
+
+.cart-item {
+  @apply flex items-center justify-between py-3 border-b border-gray-200 dark:border-gray-700 last:border-b-0;
+}
+
+.cart-item-info {
+  @apply flex items-center space-x-3;
+}
+
+.cart-item-emoji {
+  @apply text-2xl;
+}
+
+.cart-item-details {
+  @apply flex-1;
+}
+
+.cart-item-name {
+  @apply font-medium text-gray-900 dark:text-white;
+}
+
+.cart-item-price {
+  @apply text-sm text-gray-600 dark:text-gray-400;
+}
+
+.cart-item-controls {
+  @apply flex items-center space-x-2;
+}
+
+.cart-item-quantity-button {
+  @apply w-8 h-8 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center hover:bg-gray-300 dark:hover:bg-gray-500;
+}
+
+.cart-item-quantity {
+  @apply w-8 text-center font-medium text-gray-900 dark:text-white;
+}
+
+.cart-item-remove {
+  @apply text-red-500 hover:text-red-700 ml-2;
+}
+
+/**
+ * Footer del carrito
+ */
+.cart-modal-footer {
+  @apply p-6 border-t border-gray-200 dark:border-gray-700;
+}
+
+.cart-total {
+  @apply flex items-center justify-between mb-4;
+}
+
+.cart-total-label {
+  @apply text-lg font-semibold text-gray-900 dark:text-white;
+}
+
+.cart-total-value {
+  @apply text-xl font-bold text-orange-600 dark:text-orange-400;
+}
+
+.cart-checkout-button {
+  @apply w-full bg-orange-500 hover:bg-orange-600 text-white py-3 px-4 rounded-lg font-medium transition-colors;
+}
+
+/* ===== ESTADOS DE STOCK ===== */
+
+/**
+ * Indicadores de estado de stock
+ */
+.stock-indicator {
+  @apply inline-flex items-center px-2 py-1 rounded-full text-xs font-medium;
+}
+
+.stock-indicator.optimal {
+  @apply bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200;
+}
+
+.stock-indicator.low {
+  @apply bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200;
+}
+
+.stock-indicator.critical {
+  @apply bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200;
+}
+
+.stock-indicator.out-of-stock {
+  @apply bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200;
+}
+
+/**
+ * Barras de progreso de stock
+ */
+.stock-progress {
+  @apply w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2;
+}
+
+.stock-progress-fill {
+  @apply h-2 rounded-full transition-all duration-500;
+}
+
+.stock-progress-fill.optimal {
+  @apply bg-gradient-to-r from-green-400 to-green-500;
+}
+
+.stock-progress-fill.low {
+  @apply bg-gradient-to-r from-yellow-400 to-yellow-500;
+}
+
+.stock-progress-fill.critical {
+  @apply bg-gradient-to-r from-red-400 to-red-500;
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+
+/* Mobile */
+@media (max-width: 767px) {
+  .inventory-container,
+  .productos-container {
+    @apply p-3;
+  }
+  
+  .inventory-grid,
+  .productos-grid {
+    @apply grid-cols-1 gap-4;
+  }
+  
+  .inventory-controls {
+    @apply flex-col gap-3;
+  }
+  
+  .materia-card,
+  .producto-card {
+    @apply shadow-md;
+  }
+  
+  .cart-float-button {
+    @apply p-3;
+  }
+  
+  .cart-modal-container {
+    @apply mx-3;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .inventory-grid,
+  .productos-grid {
+    @apply grid-cols-2;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1280px) {
+  .inventory-grid {
+    @apply grid-cols-5;
+  }
+  
+  .productos-grid {
+    @apply grid-cols-5;
+  }
+}
+
+/* Print styles */
+@media print {
+  .inventory-controls,
+  .productos-filters,
+  .materia-card-actions,
+  .producto-add-button,
+  .cart-float,
+  .cart-modal {
+    @apply hidden;
+  }
+  
+  .inventory-grid,
+  .productos-grid {
+    @apply grid-cols-2 gap-4;
+  }
+  
+  .materia-card,
+  .producto-card {
+    @apply shadow-none border border-gray-300 break-inside-avoid;
+  }
+}
