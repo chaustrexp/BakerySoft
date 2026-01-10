@@ -9,13 +9,13 @@
  * @version 1.0.0
  */
 
+/* ===== ESTILOS PERSONALIZADOS DEL SISTEMA ===== */
+@import './styles/main.css';
+
 /* ===== TAILWIND CSS ===== */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* ===== ESTILOS PERSONALIZADOS DEL SISTEMA ===== */
-@import './styles/main.css';
 
 /* ===== CONFIGURACIÓN BASE ===== */
 
@@ -485,7 +485,7 @@ code {
 @media print {
   * {
     -webkit-print-color-adjust: exact !important;
-    color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
   
   body {

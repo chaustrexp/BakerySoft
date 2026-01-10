@@ -9,11 +9,6 @@
  * @version 1.0.0
  */
 
-/* ===== TAILWIND CSS BASE ===== */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 /* ===== ESTILOS BASE DEL SISTEMA ===== */
 @import './base.css';
 
@@ -28,6 +23,11 @@
 
 /* ===== INVENTARIO Y PRODUCTOS ===== */
 @import './components/inventory.css';
+
+/* ===== TAILWIND CSS BASE ===== */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* ===== ESTILOS GLOBALES ADICIONALES ===== */
 

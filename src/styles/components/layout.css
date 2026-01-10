@@ -144,8 +144,9 @@
   @apply space-y-2;
 }
 
+/* La clase group se aplica directamente en el JSX */
 .sidebar-nav-item {
-  @apply relative group;
+  position: relative;
 }
 
 .sidebar-nav-button {
