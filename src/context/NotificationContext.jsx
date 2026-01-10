@@ -43,6 +43,13 @@ const notificationReducer = (state, action) => {
         unreadCount: state.unreadCount + 1
       };
 
+    case 'LOAD_NOTIFICATIONS':
+      return {
+        ...state,
+        notifications: action.payload.notifications || [],
+        unreadCount: action.payload.unreadCount || 0
+      };
+
     case 'MARK_AS_READ':
       return {
         ...state,
@@ -71,29 +78,37 @@ const notificationReducer = (state, action) => {
       return state;
   }
 };
+
 // Provider del contexto
 export const NotificationProvider = ({ children }) => {
   const [state, dispatch] = useReducer(notificationReducer, initialState);
 
-  // Cargar notificaciones del localStorage al iniciar
+  // Cargar notificaciones del localStorage al iniciar (solo una vez)
   useEffect(() => {
-    const savedNotifications = localStorage.getItem('bakerysoft_notifications');
-    if (savedNotifications) {
-      try {
+    try {
+      const savedNotifications = localStorage.getItem('bakerysoft_notifications');
+      if (savedNotifications) {
         const parsed = JSON.parse(savedNotifications);
-        parsed.notifications.forEach(notif => {
-          dispatch({ type: 'ADD_NOTIFICATION', payload: notif });
-        });
+        dispatch({ type: 'LOAD_NOTIFICATIONS', payload: parsed });
+      }
+    } catch (error) {
+      console.error('Error loading notifications:', error);
+      // Si hay error, limpiar localStorage corrupto
+      localStorage.removeItem('bakerysoft_notifications');
+    }
+  }, []); // Array vacío para que solo se ejecute una vez
+
+  // Guardar notificaciones en localStorage cuando cambien (pero no en la carga inicial)
+  useEffect(() => {
+    // Solo guardar si hay notificaciones o si no es el estado inicial
+    if (state.notifications.length > 0 || state.unreadCount > 0) {
+      try {
+        localStorage.setItem('bakerysoft_notifications', JSON.stringify(state));
       } catch (error) {
-        console.error('Error loading notifications:', error);
+        console.error('Error saving notifications:', error);
       }
     }
-  }, []);
-
-  // Guardar notificaciones en localStorage cuando cambien
-  useEffect(() => {
-    localStorage.setItem('bakerysoft_notifications', JSON.stringify(state));
-  }, [state]);
+  }, [state.notifications, state.unreadCount]);
 
   // Función para agregar notificación
   const addNotification = (notification) => {
@@ -126,11 +141,15 @@ export const NotificationProvider = ({ children }) => {
   // Función para mostrar notificación del navegador
   const showDesktopNotification = (notification) => {
     if (Notification.permission === 'granted') {
-      new Notification(`BakerySoft - ${notification.title}`, {
-        body: notification.message,
-        icon: '/img/Logo.png',
-        tag: notification.id
-      });
+      try {
+        new Notification(`BakerySoft - ${notification.title}`, {
+          body: notification.message,
+          icon: '/img/Logo.png',
+          tag: notification.id
+        });
+      } catch (error) {
+        console.error('Error showing desktop notification:', error);
+      }
     }
   };
 
