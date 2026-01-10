@@ -92,6 +92,7 @@ dist
 .cache/
 public
 !public/img/
+!public/project-info.json
 
 # Storybook build outputs
 .out
