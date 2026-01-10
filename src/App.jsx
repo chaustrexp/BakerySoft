@@ -25,109 +25,189 @@ function AppContent() {
   const { darkMode } = useUI();
   const [isLoading, setIsLoading] = useState(true);
   const [authView, setAuthView] = useState('login'); // 'login' o 'register'
+  const [error, setError] = useState(null);
 
   // Verificar usuario guardado al cargar
   useEffect(() => {
-    try {
-      const savedUser = localStorage.getItem('bakerysoft_user');
-      if (savedUser) {
-        const parsedUser = JSON.parse(savedUser);
-        login(parsedUser);
+    const initializeApp = async () => {
+      try {
+        console.log('Inicializando aplicación...');
+        
+        const savedUser = localStorage.getItem('bakerysoft_user');
+        if (savedUser) {
+          try {
+            const parsedUser = JSON.parse(savedUser);
+            console.log('Usuario guardado encontrado:', parsedUser.username);
+            login(parsedUser);
+          } catch (parseError) {
+            console.error('Error parsing saved user:', parseError);
+            localStorage.removeItem('bakerysoft_user');
+          }
+        }
+        
+        // Simular carga inicial
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        console.log('Aplicación inicializada correctamente');
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error inicializando aplicación:', error);
+        setError(error.message);
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error('Error loading saved user:', error);
-      localStorage.removeItem('bakerysoft_user');
-    }
-    
-    // Simular carga inicial
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-    
-    return () => clearTimeout(timer);
+    };
+
+    initializeApp();
   }, [login]);
 
-  // Función de login
+  // Función de login con manejo de errores
   const handleLogin = (user) => {
-    login(user);
+    try {
+      console.log('Intentando login para:', user.username);
+      login(user);
+    } catch (error) {
+      console.error('Error en login:', error);
+      setError('Error al iniciar sesión');
+    }
   };
 
-  // Función de registro
+  // Función de registro con manejo de errores
   const handleRegister = (userData) => {
-    // Agregar el nuevo usuario al sistema
-    addUser(userData);
-    
-    // Hacer login automático después del registro
-    login(userData);
-    
-    // Mostrar mensaje de éxito
-    alert(`¡Cuenta creada exitosamente!\n\nBienvenido ${userData.name}.\nYa puedes usar el sistema con tu nueva cuenta.`);
+    try {
+      console.log('Registrando nuevo usuario:', userData.username);
+      
+      // Agregar el nuevo usuario al sistema
+      addUser(userData);
+      
+      // Hacer login automático después del registro
+      login(userData);
+      
+      // Mostrar mensaje de éxito
+      alert(`¡Cuenta creada exitosamente!\n\nBienvenido ${userData.name}.\nYa puedes usar el sistema con tu nueva cuenta.`);
+    } catch (error) {
+      console.error('Error en registro:', error);
+      setError('Error al registrar usuario');
+    }
   };
 
   // Función de logout
   const handleLogout = () => {
-    logout();
-    setActiveView('dashboard');
+    try {
+      console.log('Cerrando sesión...');
+      logout();
+      setActiveView('dashboard');
+    } catch (error) {
+      console.error('Error en logout:', error);
+    }
   };
 
   // Verificar permisos
   const hasPermission = (permission) => {
-    return state.currentUser && state.currentUser.permissions && state.currentUser.permissions.includes(permission);
+    try {
+      return state.currentUser && state.currentUser.permissions && state.currentUser.permissions.includes(permission);
+    } catch (error) {
+      console.error('Error verificando permisos:', error);
+      return false;
+    }
   };
 
   // Renderizar contenido según vista activa
   const renderContent = () => {
-    if (!hasPermission(state.activeView)) {
+    try {
+      if (!hasPermission(state.activeView)) {
+        return (
+          <div className="flex items-center justify-center h-full">
+            <div className="text-center p-8">
+              <div className="w-24 h-24 mx-auto mb-6 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+                <span className="text-4xl">🚫</span>
+              </div>
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Acceso Denegado</h2>
+              <p className="text-gray-600 dark:text-gray-400 text-lg mb-8">
+                No tienes permisos para acceder a esta sección.
+              </p>
+              <button
+                onClick={() => setActiveView('dashboard')}
+                className="bg-amber-600 hover:bg-amber-700 text-white px-6 py-3 rounded-lg font-medium"
+              >
+                Volver al Dashboard
+              </button>
+            </div>
+          </div>
+        );
+      }
+
+      switch (state.activeView) {
+        case 'dashboard':
+          return <Dashboard user={state.currentUser} />;
+        case 'inventario':
+          return <InventoryGrid />;
+        case 'personal':
+          return <PersonalView />;
+        case 'finanzas':
+          return <FinanzasView />;
+        case 'produccion':
+          return <ProduccionView />;
+        case 'pos':
+          return <POSView />;
+        case 'usuarios':
+          return <UsuariosView />;
+        case 'reportes':
+          return <ReportesView />;
+        case 'proveedores':
+          return <ProveedoresView />;
+        case 'pedidos':
+          return <PedidosView />;
+        case 'productos':
+          return <ProductosView />;
+        case 'perfil':
+          return <PerfilClienteView />;
+        default:
+          return <Dashboard user={state.currentUser} />;
+      }
+    } catch (error) {
+      console.error('Error renderizando contenido:', error);
       return (
         <div className="flex items-center justify-center h-full">
           <div className="text-center p-8">
             <div className="w-24 h-24 mx-auto mb-6 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
-              <span className="text-4xl">🚫</span>
+              <span className="text-4xl">⚠️</span>
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Acceso Denegado</h2>
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Error de Renderizado</h2>
             <p className="text-gray-600 dark:text-gray-400 text-lg mb-8">
-              No tienes permisos para acceder a esta sección.
+              Ocurrió un error al cargar esta sección.
             </p>
             <button
-              onClick={() => setActiveView('dashboard')}
+              onClick={() => window.location.reload()}
               className="bg-amber-600 hover:bg-amber-700 text-white px-6 py-3 rounded-lg font-medium"
             >
-              Volver al Dashboard
+              Recargar Página
             </button>
           </div>
         </div>
       );
     }
-
-    switch (state.activeView) {
-      case 'dashboard':
-        return <Dashboard user={state.currentUser} />;
-      case 'inventario':
-        return <InventoryGrid />;
-      case 'personal':
-        return <PersonalView />;
-      case 'finanzas':
-        return <FinanzasView />;
-      case 'produccion':
-        return <ProduccionView />;
-      case 'pos':
-        return <POSView />;
-      case 'usuarios':
-        return <UsuariosView />;
-      case 'reportes':
-        return <ReportesView />;
-      case 'proveedores':
-        return <ProveedoresView />;
-      case 'pedidos':
-        return <PedidosView />;
-      case 'productos':
-        return <ProductosView />;
-      case 'perfil':
-        return <PerfilClienteView />;
-      default:
-        return <Dashboard user={state.currentUser} />;
-    }
   };
+
+  // Pantalla de error
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 text-center">
+          <div className="w-20 h-20 mx-auto mb-6 bg-red-100 rounded-full flex items-center justify-center">
+            <span className="text-4xl">❌</span>
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Error de Aplicación</h1>
+          <p className="text-gray-600 mb-6">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="w-full bg-amber-500 hover:bg-amber-600 text-white py-3 px-4 rounded-lg font-medium"
+          >
+            Recargar Página
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   // Pantalla de carga
   if (isLoading) {
@@ -188,6 +268,8 @@ function AppContent() {
 
 // Componente principal que provee el contexto
 function App() {
+  console.log('Iniciando aplicación BakerySoft...');
+  
   return (
     <AppProvider>
       <NotificationProvider>
