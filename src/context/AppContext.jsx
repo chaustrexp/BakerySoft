@@ -370,11 +370,11 @@ export function AppProvider({ children }) {
         
         // Fallback: Buscar en datos locales
         const localUsers = [
-          { id: 1, username: 'admin', password: 'admin123', name: 'Administrador', role: 'admin', email: 'admin@bakerysoft.com' },
-          { id: 2, username: 'gerente', password: 'gerente123', name: 'Gerente General', role: 'manager', email: 'gerente@bakerysoft.com' },
-          { id: 3, username: 'supervisor', password: 'supervisor123', name: 'Supervisor', role: 'supervisor', email: 'supervisor@bakerysoft.com' },
-          { id: 4, username: 'empleado', password: 'empleado123', name: 'Empleado', role: 'employee', email: 'empleado@bakerysoft.com' },
-          { id: 5, username: 'cliente', password: 'cliente123', name: 'Cliente', role: 'client', email: 'cliente@bakerysoft.com' }
+          { id: 1, username: 'admin', password: 'admin123', name: 'Administrador', role: 'admin', email: 'admin@bakerysoft.com', permissions: ['dashboard', 'inventario', 'personal', 'finanzas', 'produccion', 'pos', 'reportes', 'proveedores', 'pedidos', 'productos', 'usuarios'] },
+          { id: 2, username: 'gerente', password: 'gerente123', name: 'Gerente General', role: 'manager', email: 'gerente@bakerysoft.com', permissions: ['dashboard', 'inventario', 'personal', 'finanzas', 'produccion', 'pos', 'reportes', 'proveedores', 'pedidos'] },
+          { id: 3, username: 'supervisor', password: 'supervisor123', name: 'Supervisor', role: 'supervisor', email: 'supervisor@bakerysoft.com', permissions: ['dashboard', 'inventario', 'personal', 'produccion', 'pos', 'pedidos'] },
+          { id: 4, username: 'empleado', password: 'empleado123', name: 'Empleado', role: 'employee', email: 'empleado@bakerysoft.com', permissions: ['dashboard', 'inventario', 'produccion', 'pos'] },
+          { id: 5, username: 'cliente', password: 'cliente123', name: 'Cliente', role: 'client', email: 'cliente@bakerysoft.com', permissions: ['dashboard', 'productos', 'pedidos', 'perfil'] }
         ];
         
         const user = localUsers.find(u => u.username === username && u.password === password);

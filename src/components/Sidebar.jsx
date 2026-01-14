@@ -136,7 +136,7 @@ const Sidebar = ({ activeView, setActiveView, user, isCollapsed, setIsCollapsed,
 
   // Filtrar menú según permisos del usuario
   const filteredMenuItems = menuItems.filter(item => 
-    user.permissions.includes(item.id)
+    user?.permissions?.includes(item.id) || false
   );
 
   const handleMenuClick = (viewId) => {
