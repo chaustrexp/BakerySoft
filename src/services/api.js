@@ -8,10 +8,13 @@
  * @version 1.0.0
  */
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Detectar si estamos en producción (Vercel) o desarrollo (local)
+const API_URL = import.meta.env.VITE_API_URL || 
+  (import.meta.env.PROD ? '/api' : 'http://localhost:5000/api');
 
 // Debug: verificar que la URL se cargue correctamente
 console.log('🔗 API URL configurada:', API_URL);
+console.log('🌍 Entorno:', import.meta.env.PROD ? 'Producción' : 'Desarrollo');
 
 /**
  * Clase para manejar errores de API
