@@ -31,7 +31,7 @@ class ErrorBoundary extends React.Component {
             </div>
             
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              ¡Oops! Algo salió mal
+              ¡! Algo salió mal
             </h1>
             
             <p className="text-gray-600 dark:text-gray-400 mb-6">

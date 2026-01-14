@@ -103,9 +103,27 @@ export const NotificationProvider = ({ children }) => {
     // Solo guardar si hay notificaciones o si no es el estado inicial
     if (state.notifications.length > 0 || state.unreadCount > 0) {
       try {
-        localStorage.setItem('bakerysoft_notifications', JSON.stringify(state));
+        // Limitar a las últimas 50 notificaciones para evitar QuotaExceededError
+        const limitedState = {
+          notifications: state.notifications.slice(0, 50),
+          unreadCount: state.unreadCount
+        };
+        localStorage.setItem('bakerysoft_notifications', JSON.stringify(limitedState));
       } catch (error) {
         console.error('Error saving notifications:', error);
+        // Si falla por cuota excedida, limpiar notificaciones antiguas
+        if (error.name === 'QuotaExceededError') {
+          try {
+            const reducedState = {
+              notifications: state.notifications.slice(0, 20),
+              unreadCount: Math.min(state.unreadCount, 20)
+            };
+            localStorage.setItem('bakerysoft_notifications', JSON.stringify(reducedState));
+          } catch (e) {
+            // Si aún falla, limpiar completamente
+            localStorage.removeItem('bakerysoft_notifications');
+          }
+        }
       }
     }
   }, [state.notifications, state.unreadCount]);
@@ -127,15 +145,9 @@ export const NotificationProvider = ({ children }) => {
 
   // Función para reproducir sonido
   const playNotificationSound = () => {
-    try {
-      const audio = new Audio('/notification.mp3');
-      audio.volume = 0.3;
-      audio.play().catch(() => {
-        // Silenciar errores de audio
-      });
-    } catch (error) {
-      // Silenciar errores de audio
-    }
+    // Deshabilitado temporalmente - archivo de audio no disponible
+    // Si deseas habilitar sonidos, agrega el archivo notification.mp3 en /public/
+    return;
   };
 
   // Función para mostrar notificación del navegador

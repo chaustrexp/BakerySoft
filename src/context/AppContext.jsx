@@ -323,26 +323,55 @@ export function AppProvider({ children }) {
 
   // Guardar datos en localStorage cuando cambien
   useEffect(() => {
-    const dataToSave = {
-      materiasPrimas: state.materiasPrimas,
-      productos: state.productos,
-      empleados: state.empleados,
-      users: state.users,
-      pedidos: state.pedidos,
-      transacciones: state.transacciones,
-      ventas: state.ventas,
-      recetas: state.recetas,
-    };
-    localStorage.setItem('bakerysoft_data', JSON.stringify(dataToSave));
+    try {
+      const dataToSave = {
+        materiasPrimas: state.materiasPrimas,
+        productos: state.productos,
+        empleados: state.empleados,
+        users: state.users,
+        pedidos: state.pedidos,
+        transacciones: state.transacciones,
+        ventas: state.ventas,
+        recetas: state.recetas,
+      };
+      localStorage.setItem('bakerysoft_data', JSON.stringify(dataToSave));
+    } catch (error) {
+      console.error('Error saving data:', error);
+      // Si falla por cuota excedida, limpiar datos antiguos
+      if (error.name === 'QuotaExceededError') {
+        try {
+          // Guardar solo datos esenciales
+          const essentialData = {
+            materiasPrimas: state.materiasPrimas.slice(0, 50),
+            productos: state.productos.slice(0, 50),
+            empleados: state.empleados.slice(0, 50),
+            users: state.users,
+            pedidos: state.pedidos.slice(0, 20),
+            transacciones: state.transacciones.slice(0, 20),
+            ventas: state.ventas.slice(0, 20),
+            recetas: state.recetas.slice(0, 30),
+          };
+          localStorage.setItem('bakerysoft_data', JSON.stringify(essentialData));
+        } catch (e) {
+          // Si aún falla, limpiar completamente
+          localStorage.removeItem('bakerysoft_data');
+          console.warn('LocalStorage quota exceeded. Data not saved.');
+        }
+      }
+    }
   }, [state.materiasPrimas, state.productos, state.empleados, state.users, state.pedidos, state.transacciones, state.ventas, state.recetas]);
 
   // Guardar configuraciones en localStorage
   useEffect(() => {
-    const settings = {
-      darkMode: state.darkMode,
-      sidebarCollapsed: state.sidebarCollapsed,
-    };
-    localStorage.setItem('bakerysoft_settings', JSON.stringify(settings));
+    try {
+      const settings = {
+        darkMode: state.darkMode,
+        sidebarCollapsed: state.sidebarCollapsed,
+      };
+      localStorage.setItem('bakerysoft_settings', JSON.stringify(settings));
+    } catch (error) {
+      console.error('Error saving settings:', error);
+    }
   }, [state.darkMode, state.sidebarCollapsed]);
 
   // Aplicar tema oscuro al body
@@ -370,10 +399,10 @@ export function AppProvider({ children }) {
         
         // Fallback: Buscar en datos locales
         const localUsers = [
-          { id: 1, username: 'admin', password: 'admin123', name: 'Administrador', role: 'admin', email: 'admin@bakerysoft.com', permissions: ['dashboard', 'inventario', 'personal', 'finanzas', 'produccion', 'pos', 'reportes', 'proveedores', 'pedidos', 'productos', 'usuarios'] },
-          { id: 2, username: 'gerente', password: 'gerente123', name: 'Gerente General', role: 'manager', email: 'gerente@bakerysoft.com', permissions: ['dashboard', 'inventario', 'personal', 'finanzas', 'produccion', 'pos', 'reportes', 'proveedores', 'pedidos'] },
-          { id: 3, username: 'supervisor', password: 'supervisor123', name: 'Supervisor', role: 'supervisor', email: 'supervisor@bakerysoft.com', permissions: ['dashboard', 'inventario', 'personal', 'produccion', 'pos', 'pedidos'] },
-          { id: 4, username: 'empleado', password: 'empleado123', name: 'Empleado', role: 'employee', email: 'empleado@bakerysoft.com', permissions: ['dashboard', 'inventario', 'produccion', 'pos'] },
+          { id: 1, username: 'admin', password: 'admin123', name: 'Administrador', role: 'admin', email: 'admin@bakerysoft.com', permissions: ['dashboard', 'inventario', 'personal', 'finanzas', 'produccion', 'pos', 'reportes', 'proveedores', 'pedidos', 'productos', 'usuarios', 'perfil'] },
+          { id: 2, username: 'gerente', password: 'gerente123', name: 'Gerente General', role: 'manager', email: 'gerente@bakerysoft.com', permissions: ['dashboard', 'inventario', 'personal', 'finanzas', 'produccion', 'pos', 'reportes', 'proveedores', 'pedidos', 'productos', 'perfil'] },
+          { id: 3, username: 'supervisor', password: 'supervisor123', name: 'Supervisor', role: 'supervisor', email: 'supervisor@bakerysoft.com', permissions: ['dashboard', 'inventario', 'personal', 'produccion', 'pos', 'pedidos', 'productos', 'perfil'] },
+          { id: 4, username: 'empleado', password: 'empleado123', name: 'Empleado', role: 'employee', email: 'empleado@bakerysoft.com', permissions: ['dashboard', 'inventario', 'produccion', 'pos', 'productos', 'perfil'] },
           { id: 5, username: 'cliente', password: 'cliente123', name: 'Cliente', role: 'client', email: 'cliente@bakerysoft.com', permissions: ['dashboard', 'productos', 'pedidos', 'perfil'] }
         ];
         

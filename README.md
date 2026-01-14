@@ -9,7 +9,32 @@
   [![Vite](https://img.shields.io/badge/Vite-5.4.21-purple.svg)](https://vitejs.dev/)
   [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.1-38B2AC.svg)](https://tailwindcss.com/)
   [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+  
+  **🌐 [Ver Sistema en Línea](https://panaderia-management-system.vercel.app/)**
 </div>
+
+## 🚀 Acceso Rápido
+
+**Sistema Desplegado:** https://panaderia-management-system.vercel.app/
+
+**Usuarios de Prueba:**
+| Usuario | Contraseña | Rol |
+|---------|-----------|-----|
+| admin | admin123 | Administrador |
+| gerente | gerente123 | Gerente |
+| supervisor | supervisor123 | Supervisor |
+| empleado | empleado123 | Empleado |
+| cliente | cliente123 | Cliente |
+
+## 📚 Documentación Completa
+
+**Empieza aquí:** [BIENVENIDA.md](BIENVENIDA.md) ⭐
+
+**Documentos principales:**
+- [RESUMEN_FINAL.md](RESUMEN_FINAL.md) - Resumen ejecutivo completo
+- [INSTRUCCIONES_PRUEBA.md](INSTRUCCIONES_PRUEBA.md) - Guía de prueba rápida (5 min)
+- [CHECKLIST_VERIFICACION.md](CHECKLIST_VERIFICACION.md) - Verificación del sistema
+- [INDICE_DOCUMENTACION.md](INDICE_DOCUMENTACION.md) - Índice completo (27 documentos)
 
 ## 📋 Descripción
 
