@@ -354,16 +354,39 @@ export function AppProvider({ children }) {
     }
   }, [state.darkMode]);
 
-  // Funciones de autenticación con API
+  // Funciones de autenticación con API (con fallback a localStorage)
   const login = useCallback(async (username, password) => {
     try {
       dispatch({ type: 'SET_AUTH_LOADING', payload: true });
       dispatch({ type: 'CLEAR_AUTH_ERROR' });
       
-      const { user, token } = await authAPI.login(username, password);
-      dispatch({ type: 'LOGIN', payload: user });
-      
-      return { success: true, user };
+      // Intentar login con API
+      try {
+        const { user, token } = await authAPI.login(username, password);
+        dispatch({ type: 'LOGIN', payload: user });
+        return { success: true, user };
+      } catch (apiError) {
+        console.warn('Backend no disponible, usando datos locales:', apiError.message);
+        
+        // Fallback: Buscar en datos locales
+        const localUsers = [
+          { id: 1, username: 'admin', password: 'admin123', name: 'Administrador', role: 'admin', email: 'admin@bakerysoft.com' },
+          { id: 2, username: 'gerente', password: 'gerente123', name: 'Gerente General', role: 'manager', email: 'gerente@bakerysoft.com' },
+          { id: 3, username: 'supervisor', password: 'supervisor123', name: 'Supervisor', role: 'supervisor', email: 'supervisor@bakerysoft.com' },
+          { id: 4, username: 'empleado', password: 'empleado123', name: 'Empleado', role: 'employee', email: 'empleado@bakerysoft.com' },
+          { id: 5, username: 'cliente', password: 'cliente123', name: 'Cliente', role: 'client', email: 'cliente@bakerysoft.com' }
+        ];
+        
+        const user = localUsers.find(u => u.username === username && u.password === password);
+        
+        if (user) {
+          const { password: _, ...userWithoutPassword } = user;
+          dispatch({ type: 'LOGIN', payload: userWithoutPassword });
+          return { success: true, user: userWithoutPassword };
+        } else {
+          throw new Error('Credenciales inválidas');
+        }
+      }
     } catch (error) {
       const errorMessage = error.message || 'Error al iniciar sesión';
       dispatch({ type: 'SET_AUTH_ERROR', payload: errorMessage });
