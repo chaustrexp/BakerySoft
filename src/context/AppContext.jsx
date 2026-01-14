@@ -1,9 +1,6 @@
 import React, { createContext, useReducer, useCallback, useEffect, useState } from 'react';
 
-// Importar servicio API
-import { authAPI, getToken } from '../services/api';
-
-// Importar datos locales (temporalmente para datos que aún no están en backend)
+// Importar datos locales
 import { roles } from '../data/users';
 import { materiasPrimas } from '../data/materias';
 import { productos, categorias } from '../data/productos';
@@ -268,26 +265,8 @@ export function AppProvider({ children }) {
 
   // Verificar autenticación al cargar la aplicación
   useEffect(() => {
-    const checkAuth = async () => {
-      const token = getToken();
-      
-      if (token) {
-        try {
-          dispatch({ type: 'SET_AUTH_LOADING', payload: true });
-          const user = await authAPI.getCurrentUser();
-          dispatch({ type: 'LOGIN', payload: user });
-        } catch (error) {
-          console.error('Error verificando autenticación:', error);
-          // Token inválido o expirado, limpiar
-          localStorage.removeItem('token');
-          dispatch({ type: 'SET_AUTH_LOADING', payload: false });
-        }
-      } else {
-        dispatch({ type: 'SET_AUTH_LOADING', payload: false });
-      }
-    };
-
-    checkAuth();
+    // Backend no disponible en producción - no verificar token
+    dispatch({ type: 'SET_AUTH_LOADING', payload: false });
   }, []);
 
   // Cargar datos del localStorage al inicializar (datos que aún no están en backend)
@@ -389,32 +368,23 @@ export function AppProvider({ children }) {
       dispatch({ type: 'SET_AUTH_LOADING', payload: true });
       dispatch({ type: 'CLEAR_AUTH_ERROR' });
       
-      // Intentar login con API
-      try {
-        const { user, token } = await authAPI.login(username, password);
-        dispatch({ type: 'LOGIN', payload: user });
-        return { success: true, user };
-      } catch (apiError) {
-        console.warn('Backend no disponible, usando datos locales:', apiError.message);
-        
-        // Fallback: Buscar en datos locales
-        const localUsers = [
-          { id: 1, username: 'admin', password: 'admin123', name: 'Administrador', role: 'admin', email: 'admin@bakerysoft.com', permissions: ['dashboard', 'inventario', 'personal', 'finanzas', 'produccion', 'pos', 'reportes', 'proveedores', 'pedidos', 'productos', 'usuarios', 'perfil'] },
-          { id: 2, username: 'gerente', password: 'gerente123', name: 'Gerente General', role: 'manager', email: 'gerente@bakerysoft.com', permissions: ['dashboard', 'inventario', 'personal', 'finanzas', 'produccion', 'pos', 'reportes', 'proveedores', 'pedidos', 'productos', 'perfil'] },
-          { id: 3, username: 'supervisor', password: 'supervisor123', name: 'Supervisor', role: 'supervisor', email: 'supervisor@bakerysoft.com', permissions: ['dashboard', 'inventario', 'personal', 'produccion', 'pos', 'pedidos', 'productos', 'perfil'] },
-          { id: 4, username: 'empleado', password: 'empleado123', name: 'Empleado', role: 'employee', email: 'empleado@bakerysoft.com', permissions: ['dashboard', 'inventario', 'produccion', 'pos', 'productos', 'perfil'] },
-          { id: 5, username: 'cliente', password: 'cliente123', name: 'Cliente', role: 'client', email: 'cliente@bakerysoft.com', permissions: ['dashboard', 'productos', 'pedidos', 'perfil'] }
-        ];
-        
-        const user = localUsers.find(u => u.username === username && u.password === password);
-        
-        if (user) {
-          const { password: _, ...userWithoutPassword } = user;
-          dispatch({ type: 'LOGIN', payload: userWithoutPassword });
-          return { success: true, user: userWithoutPassword };
-        } else {
-          throw new Error('Credenciales inválidas');
-        }
+      // Fallback directo: Buscar en datos locales (backend no disponible en producción)
+      const localUsers = [
+        { id: 1, username: 'admin', password: 'admin123', name: 'Administrador', role: 'admin', email: 'admin@bakerysoft.com', permissions: ['dashboard', 'inventario', 'personal', 'finanzas', 'produccion', 'pos', 'reportes', 'proveedores', 'pedidos', 'productos', 'usuarios', 'perfil'] },
+        { id: 2, username: 'gerente', password: 'gerente123', name: 'Gerente General', role: 'manager', email: 'gerente@bakerysoft.com', permissions: ['dashboard', 'inventario', 'personal', 'finanzas', 'produccion', 'pos', 'reportes', 'proveedores', 'pedidos', 'productos', 'perfil'] },
+        { id: 3, username: 'supervisor', password: 'supervisor123', name: 'Supervisor', role: 'supervisor', email: 'supervisor@bakerysoft.com', permissions: ['dashboard', 'inventario', 'personal', 'produccion', 'pos', 'pedidos', 'productos', 'perfil'] },
+        { id: 4, username: 'empleado', password: 'empleado123', name: 'Empleado', role: 'employee', email: 'empleado@bakerysoft.com', permissions: ['dashboard', 'inventario', 'produccion', 'pos', 'productos', 'perfil'] },
+        { id: 5, username: 'cliente', password: 'cliente123', name: 'Cliente', role: 'client', email: 'cliente@bakerysoft.com', permissions: ['dashboard', 'productos', 'pedidos', 'perfil'] }
+      ];
+      
+      const user = localUsers.find(u => u.username === username && u.password === password);
+      
+      if (user) {
+        const { password: _, ...userWithoutPassword } = user;
+        dispatch({ type: 'LOGIN', payload: userWithoutPassword });
+        return { success: true, user: userWithoutPassword };
+      } else {
+        throw new Error('Credenciales inválidas');
       }
     } catch (error) {
       const errorMessage = error.message || 'Error al iniciar sesión';
@@ -422,15 +392,14 @@ export function AppProvider({ children }) {
       throw error;
     }
   }, []);
+      dispatch({ type: 'SET_AUTH_ERROR', payload: errorMessage });
+      throw error;
+    }
+  }, []);
 
   const logout = useCallback(async () => {
-    try {
-      await authAPI.logout();
-    } catch (error) {
-      console.error('Error al cerrar sesión:', error);
-    } finally {
-      dispatch({ type: 'LOGOUT' });
-    }
+    // Logout local - backend no disponible en producción
+    dispatch({ type: 'LOGOUT' });
   }, []);
 
   const register = useCallback(async (userData) => {
@@ -438,11 +407,23 @@ export function AppProvider({ children }) {
       dispatch({ type: 'SET_AUTH_LOADING', payload: true });
       dispatch({ type: 'CLEAR_AUTH_ERROR' });
       
-      const { user, token } = await authAPI.register(userData);
-      dispatch({ type: 'LOGIN', payload: user });
+      // Registro local - backend no disponible en producción
+      const newUser = {
+        ...userData,
+        id: Date.now(),
+        permissions: ['dashboard', 'productos', 'pedidos', 'perfil']
+      };
       
-      return { success: true, user };
+      dispatch({ type: 'ADD_USER', payload: newUser });
+      dispatch({ type: 'LOGIN', payload: newUser });
+      
+      return { success: true, user: newUser };
     } catch (error) {
+      const errorMessage = error.message || 'Error al registrar usuario';
+      dispatch({ type: 'SET_AUTH_ERROR', payload: errorMessage });
+      throw error;
+    }
+  }, []);
       const errorMessage = error.message || 'Error al registrar usuario';
       dispatch({ type: 'SET_AUTH_ERROR', payload: errorMessage });
       throw error;
