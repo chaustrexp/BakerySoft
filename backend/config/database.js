@@ -67,18 +67,18 @@ export const query = async (text, params) => {
  */
 export const getClient = async () => {
   const client = await pool.connect();
-  const query = client.query;
-  const release = client.release;
+  const originalQuery = client.query;
+  const originalRelease = client.release;
   
   // Wrapper para logging
   client.query = (...args) => {
     client.lastQuery = args;
-    return query.apply(client, args);
+    return originalQuery.apply(client, args);
   };
   
   client.release = () => {
     console.log('🔄 Cliente liberado');
-    return release.apply(client);
+    return originalRelease.apply(client);
   };
   
   return client;

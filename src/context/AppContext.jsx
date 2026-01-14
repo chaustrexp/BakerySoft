@@ -1,7 +1,10 @@
-import React, { createContext, useReducer, useCallback, useEffect } from 'react';
+import React, { createContext, useReducer, useCallback, useEffect, useState } from 'react';
 
-// Importar todos los datos
-import { users, roles } from '../data/users';
+// Importar servicio API
+import { authAPI, getToken } from '../services/api';
+
+// Importar datos locales (temporalmente para datos que aún no están en backend)
+import { roles } from '../data/users';
 import { materiasPrimas } from '../data/materias';
 import { productos, categorias } from '../data/productos';
 import { empleados, asistencia, nomina, departamentos, puestos } from '../data/personal';
@@ -15,9 +18,11 @@ const initialState = {
   // Autenticación
   currentUser: null,
   isAuthenticated: false,
+  authLoading: true, // Nuevo: para verificar token al cargar
+  authError: null, // Nuevo: para manejar errores de autenticación
   
-  // Datos principales
-  users: users,
+  // Datos principales (temporalmente locales, migraremos a API gradualmente)
+  users: [], // Ahora vendrá del backend
   roles: roles,
   materiasPrimas: materiasPrimas,
   productos: productos,
@@ -75,9 +80,26 @@ function appReducer(state, action) {
   switch (action.type) {
     // Autenticación
     case 'LOGIN':
-      return { ...state, currentUser: action.payload, isAuthenticated: true };
+      return { 
+        ...state, 
+        currentUser: action.payload, 
+        isAuthenticated: true,
+        authLoading: false,
+        authError: null
+      };
     case 'LOGOUT':
-      return { ...state, currentUser: null, isAuthenticated: false };
+      return { 
+        ...state, 
+        currentUser: null, 
+        isAuthenticated: false,
+        authError: null
+      };
+    case 'SET_AUTH_LOADING':
+      return { ...state, authLoading: action.payload };
+    case 'SET_AUTH_ERROR':
+      return { ...state, authError: action.payload, authLoading: false };
+    case 'CLEAR_AUTH_ERROR':
+      return { ...state, authError: null };
     
     // Materias Primas
     case 'UPDATE_MATERIA':
@@ -244,7 +266,31 @@ function appReducer(state, action) {
 export function AppProvider({ children }) {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
-  // Cargar datos del localStorage al inicializar
+  // Verificar autenticación al cargar la aplicación
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = getToken();
+      
+      if (token) {
+        try {
+          dispatch({ type: 'SET_AUTH_LOADING', payload: true });
+          const user = await authAPI.getCurrentUser();
+          dispatch({ type: 'LOGIN', payload: user });
+        } catch (error) {
+          console.error('Error verificando autenticación:', error);
+          // Token inválido o expirado, limpiar
+          localStorage.removeItem('token');
+          dispatch({ type: 'SET_AUTH_LOADING', payload: false });
+        }
+      } else {
+        dispatch({ type: 'SET_AUTH_LOADING', payload: false });
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  // Cargar datos del localStorage al inicializar (datos que aún no están en backend)
   useEffect(() => {
     const savedData = localStorage.getItem('bakerysoft_data');
     const savedSettings = localStorage.getItem('bakerysoft_settings');
@@ -308,15 +354,47 @@ export function AppProvider({ children }) {
     }
   }, [state.darkMode]);
 
-  // Funciones de autenticación
-  const login = useCallback((user) => {
-    dispatch({ type: 'LOGIN', payload: user });
-    localStorage.setItem('bakerysoft_user', JSON.stringify(user));
+  // Funciones de autenticación con API
+  const login = useCallback(async (username, password) => {
+    try {
+      dispatch({ type: 'SET_AUTH_LOADING', payload: true });
+      dispatch({ type: 'CLEAR_AUTH_ERROR' });
+      
+      const { user, token } = await authAPI.login(username, password);
+      dispatch({ type: 'LOGIN', payload: user });
+      
+      return { success: true, user };
+    } catch (error) {
+      const errorMessage = error.message || 'Error al iniciar sesión';
+      dispatch({ type: 'SET_AUTH_ERROR', payload: errorMessage });
+      throw error;
+    }
   }, []);
 
-  const logout = useCallback(() => {
-    dispatch({ type: 'LOGOUT' });
-    localStorage.removeItem('bakerysoft_user');
+  const logout = useCallback(async () => {
+    try {
+      await authAPI.logout();
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    } finally {
+      dispatch({ type: 'LOGOUT' });
+    }
+  }, []);
+
+  const register = useCallback(async (userData) => {
+    try {
+      dispatch({ type: 'SET_AUTH_LOADING', payload: true });
+      dispatch({ type: 'CLEAR_AUTH_ERROR' });
+      
+      const { user, token } = await authAPI.register(userData);
+      dispatch({ type: 'LOGIN', payload: user });
+      
+      return { success: true, user };
+    } catch (error) {
+      const errorMessage = error.message || 'Error al registrar usuario';
+      dispatch({ type: 'SET_AUTH_ERROR', payload: errorMessage });
+      throw error;
+    }
   }, []);
 
   // Funciones CRUD para Materias Primas
@@ -554,6 +632,7 @@ export function AppProvider({ children }) {
     // Auth
     login,
     logout,
+    register, // Nueva función
     // Materias Primas
     updateMateria,
     addMateria,

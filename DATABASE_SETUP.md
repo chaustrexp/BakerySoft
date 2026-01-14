@@ -55,7 +55,7 @@ psql postgres
 CREATE DATABASE bakerysoft_db;
 
 -- Crear usuario
-CREATE USER bakerysoft_user WITH PASSWORD 'tu_contraseña_segura';
+CREATE USER bakerysoft_user WITH PASSWORD '1234';
 
 -- Otorgar permisos
 GRANT ALL PRIVILEGES ON DATABASE bakerysoft_db TO bakerysoft_user;
@@ -88,18 +88,18 @@ GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO bakerysoft_user;
    - Port: `5432`
    - Database: `bakerysoft_db`
    - Username: `bakerysoft_user`
-   - Password: `tu_contraseña_segura`
+   - Password: `1234`
    - Save password: ✅
 4. Click "Save"
 
 ## 🏗️ Paso 4: Ejecutar Esquema de Base de Datos
 
-### Opción 1: Desde pgAdmin
+### Opción 1: Desde pgAdmin (RECOMENDADO)
 1. Conectar al servidor BakerySoft Local
 2. Expandir: Servers → BakerySoft Local → Databases → bakerysoft_db
 3. Click derecho en bakerysoft_db → "Query Tool"
-4. Copiar y pegar el contenido de `backend/database/schema.sql`
-5. Click en "Execute" (⚡)
+4. Copiar y pegar el contenido completo de `backend/database/schema.sql`
+5. Click en "Execute" (⚡) o presionar F5
 
 ### Opción 2: Desde línea de comandos
 ```bash
@@ -110,7 +110,7 @@ cd backend
 psql -U bakerysoft_user -d bakerysoft_db -f database/schema.sql
 ```
 
-### Opción 3: Con el script de migración
+### Opción 3: Con el script de migración (DESPUÉS DE INSTALAR DEPENDENCIAS)
 ```bash
 # En el directorio backend
 npm install
@@ -125,35 +125,28 @@ cd backend
 npm install
 ```
 
-### 2. Configurar variables de entorno:
-```bash
-# Copiar archivo de ejemplo
-cp .env.example .env
-
-# Editar .env con tus datos
-```
-
-### 3. Archivo `.env`:
+### 2. Verificar archivo `.env`:
+El archivo `.env` ya está configurado con:
 ```env
 # Base de Datos
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=bakerysoft_db
 DB_USER=bakerysoft_user
-DB_PASSWORD=tu_contraseña_segura
+DB_PASSWORD=1234
 
 # Servidor
 PORT=3001
 NODE_ENV=development
 
-# JWT (generar uno seguro)
-JWT_SECRET=tu_jwt_secret_muy_seguro_aqui
+# JWT Secret
+JWT_SECRET=bakerysoft_super_secret_jwt_key_2024_muy_seguro
 
 # CORS
-CORS_ORIGIN=http://localhost:3000,http://localhost:5173
+CORS_ORIGIN=http://localhost:3000,http://localhost:5173,https://panaderia-management-system.vercel.app
 ```
 
-### 4. Probar conexión:
+### 3. Probar conexión:
 ```bash
 npm run dev
 ```
@@ -166,7 +159,21 @@ Deberías ver:
 🗄️ Base de datos: bakerysoft_db
 ```
 
-## 🔍 Paso 6: Verificar Instalación
+## 🌱 Paso 6: Poblar con Datos de Ejemplo
+
+```bash
+# Ejecutar seed para crear datos de ejemplo
+npm run seed
+```
+
+Esto creará usuarios de prueba:
+- **Admin**: admin / admin123
+- **Gerente**: gerente / gerente123
+- **Supervisor**: supervisor / supervisor123
+- **Empleado**: empleado / empleado123
+- **Cliente**: cliente / cliente123
+
+## 🔍 Paso 7: Verificar Instalación
 
 ### En pgAdmin:
 1. Expandir: bakerysoft_db → Schemas → public → Tables
@@ -176,7 +183,13 @@ Deberías ver:
    - products
    - raw_materials
    - orders
-   - etc.
+   - customers
+   - recipes
+   - production_batches
+   - financial_transactions
+   - inventory_movements
+   - audit_logs
+   - system_settings
 
 ### Probar API:
 ```bash
@@ -190,6 +203,14 @@ curl http://localhost:3001/health
   "uptime": ...,
   "version": "1.0.0"
 }
+```
+
+### Probar autenticación:
+```bash
+# Login con usuario admin
+curl -X POST http://localhost:3001/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "admin", "password": "admin123"}'
 ```
 
 ## 🛠️ Comandos Útiles
@@ -232,7 +253,7 @@ npm run reset-db
 ### Error: "role does not exist"
 ```sql
 -- Crear usuario si no existe
-CREATE USER bakerysoft_user WITH PASSWORD 'tu_contraseña';
+CREATE USER bakerysoft_user WITH PASSWORD '1234';
 ```
 
 ### Error: "database does not exist"
@@ -245,6 +266,7 @@ CREATE DATABASE bakerysoft_db;
 ```sql
 -- Otorgar permisos
 GRANT ALL PRIVILEGES ON DATABASE bakerysoft_db TO bakerysoft_user;
+GRANT ALL ON SCHEMA public TO bakerysoft_user;
 ```
 
 ### Error de conexión en pgAdmin:
@@ -252,13 +274,24 @@ GRANT ALL PRIVILEGES ON DATABASE bakerysoft_db TO bakerysoft_user;
 - Verificar host, puerto, usuario y contraseña
 - Verificar firewall (puerto 5432)
 
-## 📊 Próximos Pasos
+### Error "relation does not exist":
+- Asegúrate de haber ejecutado el esquema completo
+- Verifica que estés conectado a la base de datos correcta
+- Ejecuta `npm run migrate` para crear las tablas
 
-1. ✅ PostgreSQL instalado y configurado
-2. ✅ pgAdmin conectado
-3. ✅ Base de datos creada con esquema
-4. ✅ Backend conectado a BD
-5. 🔄 **Siguiente**: Conectar Frontend con Backend
+## 📊 Estado Actual
+
+✅ **COMPLETADO:**
+1. PostgreSQL instalado y configurado
+2. pgAdmin conectado
+3. Base de datos creada con esquema completo
+4. Backend API funcionando
+5. Datos de ejemplo poblados
+
+🔄 **SIGUIENTE PASO:**
+- Conectar Frontend con Backend API
+- Reemplazar localStorage con llamadas HTTP
+- Implementar autenticación JWT en frontend
 
 ---
 

@@ -1,8 +1,9 @@
-import { useState } from 'react';
-import { authenticateUser } from '../data/users';
+import { useState, useContext } from 'react';
+import { AppContext } from '../context/AppContext';
 import Logo from './Logo';
 
-const LoginForm = ({ onLogin, onSwitchToRegister }) => {
+const LoginForm = ({ onSwitchToRegister }) => {
+  const { login, state } = useContext(AppContext);
   const [formData, setFormData] = useState({
     username: '',
     password: ''
@@ -24,18 +25,14 @@ const LoginForm = ({ onLogin, onSwitchToRegister }) => {
     setIsLoading(true);
     setError('');
 
-    // Simular delay de autenticación
-    setTimeout(() => {
-      const user = authenticateUser(formData.username, formData.password);
-      
-      if (user) {
-        onLogin(user);
-      } else {
-        setError('Usuario o contraseña incorrectos');
-      }
-      
+    try {
+      await login(formData.username, formData.password);
+      // El login exitoso redirigirá automáticamente desde App.jsx
+    } catch (error) {
+      setError(error.message || 'Usuario o contraseña incorrectos');
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   // Usuarios de demostración
@@ -82,11 +79,17 @@ const LoginForm = ({ onLogin, onSwitchToRegister }) => {
     }
   ];
 
-  const loginWithDemo = (username, password) => {
+  const loginWithDemo = async (username, password) => {
     setFormData({ username, password });
-    const user = authenticateUser(username, password);
-    if (user) {
-      onLogin(user);
+    setIsLoading(true);
+    setError('');
+    
+    try {
+      await login(username, password);
+    } catch (error) {
+      setError(error.message || 'Error al iniciar sesión');
+    } finally {
+      setIsLoading(false);
     }
   };
 
