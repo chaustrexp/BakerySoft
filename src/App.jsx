@@ -33,20 +33,11 @@ function AppContent() {
       try {
         console.log('Inicializando aplicación...');
         
-        const savedUser = localStorage.getItem('bakerysoft_user');
-        if (savedUser) {
-          try {
-            const parsedUser = JSON.parse(savedUser);
-            console.log('Usuario guardado encontrado:', parsedUser.username);
-            login(parsedUser);
-          } catch (parseError) {
-            console.error('Error parsing saved user:', parseError);
-            localStorage.removeItem('bakerysoft_user');
-          }
-        }
+        // No intentar auto-login desde localStorage
+        // El AppContext ya maneja la verificación de autenticación
         
         // Simular carga inicial
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        await new Promise(resolve => setTimeout(resolve, 1000));
         
         console.log('Aplicación inicializada correctamente');
         setIsLoading(false);
@@ -58,7 +49,7 @@ function AppContent() {
     };
 
     initializeApp();
-  }, [login]);
+  }, []);
 
   // Función de login con manejo de errores
   const handleLogin = (user) => {
