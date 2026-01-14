@@ -9,10 +9,15 @@
  */
 
 // Detectar si estamos en producción (Vercel) o desarrollo (local)
-const API_URL = import.meta.env.VITE_API_URL || 
-  (import.meta.env.PROD ? '/api' : 'http://localhost:5000/api');
+// En producción, SIEMPRE usar /api (funciones serverless de Vercel)
+// En desarrollo, usar localhost:5000
+const isProduction = import.meta.env.PROD || window.location.hostname !== 'localhost';
+const API_URL = isProduction ? '/api' : 'http://localhost:5000/api';
 
 // Debug: verificar que la URL se cargue correctamente
+console.log('🔗 API URL configurada:', API_URL);
+console.log('🌍 Entorno:', isProduction ? 'Producción (Vercel)' : 'Desarrollo (Local)');
+console.log('🌐 Hostname:', window.location.hostname);
 console.log('🔗 API URL configurada:', API_URL);
 console.log('🌍 Entorno:', import.meta.env.PROD ? 'Producción' : 'Desarrollo');
 
