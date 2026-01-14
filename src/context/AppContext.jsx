@@ -392,10 +392,6 @@ export function AppProvider({ children }) {
       throw error;
     }
   }, []);
-      dispatch({ type: 'SET_AUTH_ERROR', payload: errorMessage });
-      throw error;
-    }
-  }, []);
 
   const logout = useCallback(async () => {
     // Logout local - backend no disponible en producción
@@ -419,11 +415,6 @@ export function AppProvider({ children }) {
       
       return { success: true, user: newUser };
     } catch (error) {
-      const errorMessage = error.message || 'Error al registrar usuario';
-      dispatch({ type: 'SET_AUTH_ERROR', payload: errorMessage });
-      throw error;
-    }
-  }, []);
       const errorMessage = error.message || 'Error al registrar usuario';
       dispatch({ type: 'SET_AUTH_ERROR', payload: errorMessage });
       throw error;
