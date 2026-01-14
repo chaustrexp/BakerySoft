@@ -17,11 +17,12 @@ const Dashboard = ({ user }) => {
   // Inicializar sistema de notificaciones
   const { notifySuccess, notifyWarning, notifyError, notifyInfo } = useNotificationSystem();
   
-  const userRole = roles[user.role] || roles.employee;
+  const userRole = roles[user?.role] || roles.employee || { name: 'Empleado', permissions: [] };
   
-  // Si es cliente, mostrar dashboard específico para clientes
-  if (user.role === 'client') {
-    return <ClientDashboard user={user} setActiveView={setActiveView} />;
+  // Si es cliente, redirigir a vista de productos
+  if (user?.role === 'client') {
+    // Por ahora, mostrar dashboard normal
+    // return <ClientDashboard user={user} setActiveView={setActiveView} />;
   }
   
   // Calcular estadísticas
