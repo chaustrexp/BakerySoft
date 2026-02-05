@@ -1,10 +1,6 @@
 # Dependencies
 node_modules
 
-# Backend (no deployar en Vercel frontend)
-backend/
-api/
-
 # Development files
 .env.local
 .env.development.local

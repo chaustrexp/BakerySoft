@@ -23,11 +23,6 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@vercel/postgres": "^0.5.1",
-    "bcryptjs": "^2.4.3",
-    "dotenv": "^17.2.3",
-    "jsonwebtoken": "^9.0.3",
-    "pg": "^8.16.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

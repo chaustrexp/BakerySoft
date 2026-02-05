@@ -104,11 +104,5 @@ temp/
 
 # Vercel
 .vercel
-.vercel.json
-
-# Backend environment
-backend/.env
-backend/.env.local
-backend/.env.production
 
 .env*.local
